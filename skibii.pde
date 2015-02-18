@@ -6,12 +6,20 @@
 // 5 -> walkable not buildable
 
 PImage tower; // used to load Billy's image of the grid
-mazeRunner runner = new mazeRunner(15,175);
-byte[][] grid; 
+
+final int gridSize = 2;  // Define the width and length of grids boxes
+
+mazeRunner runner = new mazeRunner(30,350);
+
+int gridHeight;
+int gridWidth;
+byte[][] grid;
+
+
 void setup() {
-  size(360,700);
-  
   imageToGrid();
+  
+  size(gridSize * gridWidth, gridSize * gridHeight);
   drawMap();
   runner.draw();
 
@@ -20,8 +28,8 @@ void setup() {
 
 void drawMap() {
  background(128,128,0);
-  for(int i = 0; i < 180; i++) {
-    for(int j = 0; j < 352; j++) {
+  for(int i = 0; i < gridWidth; i++) {
+    for(int j = 0; j < gridHeight; j++) {
      
         //set color
         if(grid[i][j] == 1) {fill(0,255,0); stroke(0,255,0);}
@@ -31,7 +39,9 @@ void drawMap() {
         else if(grid[i][j] == 4) {fill(255,255,0);stroke(255,255,0);}
         else {fill(0,0,255); stroke(0,0,255);}
         
-        rect(i,j,1,1);
+
+        rect(i*gridSize,j*gridSize,gridSize,gridSize);
+
       
     } 
 
@@ -41,18 +51,20 @@ void drawMap() {
 void imageToGrid() {
    tower = loadImage("skibi.bmp");
  //int dimension = tower.width * tower.height;
+  gridHeight = tower.height;
+  gridWidth = tower.width;
   grid = new byte[tower.width][tower.height];
 
   
   tower.loadPixels();
   
   float r,g,b;
-  for(int i = 0; i < 180; i++) {
-    for(int j = 0; j < 352; j++) {
+  for(int i = 0; i < gridWidth; i++) {
+    for(int j = 0; j < gridHeight; j++) {
       
-       r = red(tower.pixels[j * 180 + i]);
-       g = green(tower.pixels[j* 180 + i]);
-       b = blue(tower.pixels[j * 180 + i]);
+       r = red(tower.pixels[j * gridWidth + i]);
+       g = green(tower.pixels[j* gridWidth + i]);
+       b = blue(tower.pixels[j * gridWidth + i]);
        
        if(r == 255.0 && g == 0.0 && b == 0.0)
          grid[i][j] = 4;

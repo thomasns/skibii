@@ -12,8 +12,11 @@ class mazeRunner {
     speed = 2;
   }
   
-  void update(byte[][] grid) { 
-    if(targetReached(grid)) {
+
+
+
+  void update() { 
+    if(targetReached()) {
       //find new target 
     } else {
       
@@ -31,6 +34,7 @@ class mazeRunner {
    return (round(xPos) == round(xTarget) && round(yPos) == round(yTarget));
   }
   
+
   boolean waypointReached() {
    return (round(xPos) == round(xWaypoint) && round(yPos) == round(yWaypoint));
   }
@@ -47,3 +51,4 @@ class mazeRunner {
   }
   
 } 
+
