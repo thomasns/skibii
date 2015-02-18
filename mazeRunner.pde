@@ -6,7 +6,7 @@ class mazeRunner {
   
   
   mazeRunner(int x, int y) {
-    drawColor = color(255,0,0);
+    drawColor = color(0,255,0);
     xPos = x;
     yPos = y;
     speed = 2;
@@ -27,7 +27,7 @@ class mazeRunner {
   void draw() {
     fill(drawColor);
     stroke(drawColor);
-    ellipse(xPos,yPos,2,2);
+    ellipse(xPos,yPos,gridSize,gridSize);
   }
   
   boolean targetReached() {

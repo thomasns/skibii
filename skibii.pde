@@ -7,7 +7,7 @@
 
 PImage tower; // used to load Billy's image of the grid
 
-mazeRunner runner = new mazeRunner(30,350);
+mazeRunner runner;
 
 int gridHeight;
 int gridWidth;
@@ -19,6 +19,10 @@ void setup() {
   
   size(gridSize * gridWidth, gridSize * gridHeight);
   drawMap();
+  
+  // Setup north runner
+  int[] northSpawnerPixle = centerOfColor(northSpawner);
+  runner = new mazeRunner(northSpawnerPixle[0],northSpawnerPixle[1]);
   runner.draw();
 
 }
@@ -33,6 +37,83 @@ void drawMap() {
         rect(i*gridSize,j*gridSize,gridSize,gridSize);
     } 
   } 
+}
+
+int[] pixleToGrid(int x, int y) {
+  int[] gridpoint = new int[2];
+  gridpoint[0] = floor(x / gridSize);
+  gridpoint[1] = floor(y / gridSize);
+  return gridpoint;
+    
+}
+
+int[] gridToPixle(int x, int y) {
+   int[] topLeftPixle = new int[2];
+   topLeftPixle[0] = gridSize * x;
+   topLeftPixle[1] = gridSize * y;
+   return topLeftPixle;
+}
+
+// Returns the center pixle of a square of a given color
+// Assume a rectangular region of color and selecting the 
+// first region of that color top to bottom, left to right
+int[] centerOfColor(color target) {
+  int[] center = new int[2];
+  center[0] = -1;
+  center[1] = -1;
+  
+  // Find the top left most grid of the target color
+  int topLeftX = -1;
+  int topLeftY = -1;
+  boolean topLeftFound = false;
+  for(int i = 0; i < gridWidth; i++) {
+     for(int j = 0; j < gridHeight; j++) {
+       if(grid[i][j] == target) {
+         topLeftX = i;
+         topLeftY = j;
+         topLeftFound = true;
+         break;
+       }
+     }
+     if(topLeftFound) {
+       break; 
+     } 
+  }
+  
+  // Color was not found so return signal error value
+  if(!topLeftFound) {
+     return center;
+  }
+  
+  // Find the width of the color in grids
+  int colorWidth=1;
+  while((colorWidth+topLeftX-1) <= gridWidth)
+  {
+    if(grid[topLeftX + colorWidth][topLeftY] == target) {
+       colorWidth++;
+    } else {
+      break; 
+    }
+  }
+  
+  // Find the height of the color in grids
+  int colorHeight = 1;
+  while((colorHeight+topLeftY-1) <= gridHeight) {
+    if(grid[topLeftX][topLeftY + colorHeight] == target) {
+       colorHeight++;
+    } else {
+       break;
+    } 
+  }
+  
+  int[] topLeftPixle = gridToPixle(topLeftX, topLeftY);
+  int[] bottomRightPixle = gridToPixle(topLeftX+colorWidth-1, topLeftY+colorHeight-1);
+  bottomRightPixle[0] = bottomRightPixle[0] + gridSize;
+  bottomRightPixle[1] = bottomRightPixle[1] + gridSize;
+  
+  center[0] = (topLeftPixle[0] + bottomRightPixle[0]) / 2;
+  center[1] = (topLeftPixle[1] + bottomRightPixle[1]) / 2;
+  return center;
 }
 
 void imageToGrid() {
