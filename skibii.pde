@@ -6,7 +6,7 @@
 // 5 -> walkable not buildable
 
 PImage tower; // used to load Billy's image of the grid
-mazeRunner runner = new mazeRunner(30,350);
+mazeRunner runner = new mazeRunner(15,175);
 byte[][] grid; 
 void setup() {
   size(360,700);
@@ -31,7 +31,7 @@ void drawMap() {
         else if(grid[i][j] == 4) {fill(255,255,0);stroke(255,255,0);}
         else {fill(0,0,255); stroke(0,0,255);}
         
-        rect(i*2,j*2,2,2);
+        rect(i,j,1,1);
       
     } 
 
