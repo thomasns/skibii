@@ -12,7 +12,7 @@ class mazeRunner {
   }
   
   void update() { 
-    if(targetReached) {
+    if(targetReached()) {
       //find new target 
     } else {
       
