@@ -7,8 +7,6 @@
 
 PImage tower; // used to load Billy's image of the grid
 
-final int gridSize = 2;  // Define the width and length of grids boxes
-
 mazeRunner runner = new mazeRunner(30,350);
 
 int gridHeight;
@@ -49,7 +47,7 @@ void drawMap() {
 }
 
 void imageToGrid() {
-   tower = loadImage("skibi.bmp");
+   tower = loadImage(skibiiBitmap);
  //int dimension = tower.width * tower.height;
   gridHeight = tower.height;
   gridWidth = tower.width;
